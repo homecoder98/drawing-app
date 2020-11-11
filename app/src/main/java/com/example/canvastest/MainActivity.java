@@ -51,12 +51,13 @@ import java.util.Date;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class MainActivity extends AppCompatActivity {
-    LinearLayout container;
-    Button saveBtn, eraserBtn, backBtn;
+    LinearLayout container,settingContainer;
+    Button saveBtn, colorBtn, backBtn,screenBtn;
     TextView sizeText;
     SeekBar sizeBar;
     MyView myView;
     ColorPicker colorPicker;
+    private boolean isWideScreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +72,13 @@ public class MainActivity extends AppCompatActivity {
                 .check();
 
         container = findViewById(R.id.container);
+        settingContainer = findViewById(R.id.settingContainer);
         saveBtn = findViewById(R.id.saveBtn);
-        eraserBtn = findViewById(R.id.eraserBtn);
+        colorBtn = findViewById(R.id.colorBtn);
         backBtn = findViewById(R.id.backBtn);
         sizeText = findViewById(R.id.sizeText);
         sizeBar = findViewById(R.id.sizeBar);
+        screenBtn = findViewById(R.id.screenBtn);
 
         myView = new MyView(this);
         container.addView(myView);
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        eraserBtn.setOnClickListener(new View.OnClickListener() {
+        colorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 colorPicker = new ColorPicker(MainActivity.this);
@@ -133,6 +136,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+        //전체화면 버튼 클릭 리스너
+        screenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isWideScreen){
+                    settingContainer.setVisibility(View.GONE);
+                    screenBtn.setBackgroundResource(R.drawable.ic_baseline_fullscreen_exit_24);
+                    isWideScreen = true;
+                }else{
+                    settingContainer.setVisibility(View.VISIBLE);
+                    screenBtn.setBackgroundResource(R.drawable.ic_baseline_fullscreen_24);
+                    isWideScreen = false;
+                }
             }
         });
 

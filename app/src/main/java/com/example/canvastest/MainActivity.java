@@ -52,7 +52,7 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class MainActivity extends AppCompatActivity {
     LinearLayout container,settingContainer;
-    Button saveBtn, colorBtn, backBtn,screenBtn;
+    Button saveBtn, colorBtn, backBtn,screenBtn,eraserBtn;
     TextView sizeText;
     SeekBar sizeBar;
     MyView myView;
@@ -75,14 +75,17 @@ public class MainActivity extends AppCompatActivity {
         settingContainer = findViewById(R.id.settingContainer);
         saveBtn = findViewById(R.id.saveBtn);
         colorBtn = findViewById(R.id.colorBtn);
+        eraserBtn = findViewById(R.id.eraserBtn);
         backBtn = findViewById(R.id.backBtn);
         sizeText = findViewById(R.id.sizeText);
         sizeBar = findViewById(R.id.sizeBar);
         screenBtn = findViewById(R.id.screenBtn);
 
+        //캔버스 인플레이션 + addview
         myView = new MyView(this);
         container.addView(myView);
 
+        //사진 갤러리 저장 버튼 리스너
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,9 +96,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //색상 선택 버튼 리스너
         colorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(myView.isEraser)myView.isEraser = false;
                 colorPicker = new ColorPicker(MainActivity.this);
                 colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
                     @Override
@@ -111,6 +116,15 @@ public class MainActivity extends AppCompatActivity {
                 colorPicker.show();
             }
         });
+        //지우개 버튼 리스너
+        eraserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myView.color = Color.WHITE;
+                myView.isEraser = true;
+            }
+        });
+        //한 휙 지우기 버튼 리스너
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //붓 사이즈 조절 시크바 리스너
         sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -156,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+    //onCreate 끝
     public Boolean isExternalStorageWritable(){
         String state = Environment.getExternalStorageState();
         if(Environment.MEDIA_MOUNTED.equals(state)){
@@ -164,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+    //canvas > bitmap > sd카드에 저장 + 갤러리 등록
     public void saveImage(Bitmap bitmap){
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = timeStamp + ".jpg";
@@ -183,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("test",e.toString());
         }
     }
+    //TedPermission
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {

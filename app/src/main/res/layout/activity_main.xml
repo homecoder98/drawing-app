@@ -12,23 +12,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/settingContainer">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/color_button"
             android:id="@+id/saveBtn"
             android:text="저장"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/color_button"
+            android:layout_weight="1"
             android:id="@+id/colorBtn"
-            android:text="색 선택"/>
+            android:text="색상"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/color_button"
+            android:id="@+id/eraserBtn"
+            android:text="지우개"/>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
             android:id="@+id/backBtn"
-            android:text="뒤로가기"/>
+            android:text="뒤로"/>
         <TextView
             android:id="@+id/sizeText"
             android:layout_width="wrap_content"
@@ -36,11 +46,11 @@
             android:text="펜 굵기 : 10"/>
         <SeekBar
             android:id="@+id/sizeBar"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:max="100"
-            android:layout_weight="1" />
+            android:max="100" />
     </LinearLayout>
     <Button
         android:id="@+id/screenBtn"

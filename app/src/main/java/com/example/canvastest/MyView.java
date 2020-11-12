@@ -18,13 +18,17 @@ import java.util.Stack;
 public class MyView extends View{
     public Paint myPaint;
     private Path myPath;
+    private float x,y;
     public ArrayList<Path> pathList = new ArrayList<Path>();
     public ArrayList<Paint> paintList = new ArrayList<Paint>();
     public int color = Color.BLACK;
     public float size = 10.0f;
+    public boolean isEraser = false;
 
     public MyView(Context context) {
         super(context);
+        x = 0;
+        y = 0;
         myPaint = new Paint();
         myPaint.setStyle(Paint.Style.STROKE);
         myPaint.setStrokeWidth(30.0f);
@@ -42,16 +46,17 @@ public class MyView extends View{
         canvas.drawColor(Color.WHITE);
         myPaint.setStrokeWidth(size);
         myPaint.setColor(color);
-        canvas.drawPath(myPath,myPaint);
         for(int i =0;i<pathList.size();i++){
             canvas.drawPath(pathList.get(i),paintList.get(i));
         }
+        if(isEraser)canvas.drawCircle(x,y,size/5,myPaint);
+        canvas.drawPath(myPath,myPaint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
+        x = event.getX();
+        y = event.getY();
 
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -75,9 +80,6 @@ public class MyView extends View{
         }
         invalidate();
         return true;
-    }
-    public void erase(float x,float y){
-
     }
     public Bitmap getCanvasBitmap(){
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(), Bitmap.Config.ARGB_8888);

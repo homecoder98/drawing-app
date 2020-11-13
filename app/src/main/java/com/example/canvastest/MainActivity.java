@@ -2,6 +2,7 @@ package com.example.canvastest;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     MyView myView;
     ColorPicker colorPicker;
     private boolean isWideScreen = false;
-
+    private long backPressedTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
+        //인플레이션
         container = findViewById(R.id.container);
         settingContainer = findViewById(R.id.settingContainer);
         saveBtn = findViewById(R.id.saveBtn);
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         //캔버스 인플레이션 + addview
         myView = new MyView(this);
         container.addView(myView);
+
 
         //사진 갤러리 저장 버튼 리스너
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -211,4 +214,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "권한 거부\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
         }
     };
+    //뒤로가기 2초 안에 2번 누를시 앱 종료
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        if(backPressedTime - curTime < 2000){
+            super.onBackPressed();
+        }else{
+            backPressedTime = curTime;
+            Toast.makeText(this,"뒤로가기 누를시 앱이 종료됩니다",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

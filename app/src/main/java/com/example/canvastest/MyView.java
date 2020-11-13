@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
@@ -18,6 +19,8 @@ import java.util.Stack;
 public class MyView extends View{
     public Paint myPaint;
     private Path myPath;
+    private ScaleGestureDetector detector;
+    private float scale = 1.0f;
     private float x,y;
     public ArrayList<Path> pathList = new ArrayList<Path>();
     public ArrayList<Paint> paintList = new ArrayList<Paint>();
@@ -38,25 +41,30 @@ public class MyView extends View{
         myPath = new Path();
         pathList.add(myPath);
         paintList.add(myPaint);
+        detector = new ScaleGestureDetector(this.getContext(), new ScaleListener());
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.save();
+        canvas.scale(scale,scale,x,y);
         canvas.drawColor(Color.WHITE);
         myPaint.setStrokeWidth(size);
         myPaint.setColor(color);
         for(int i =0;i<pathList.size();i++){
             canvas.drawPath(pathList.get(i),paintList.get(i));
         }
-        if(isEraser)canvas.drawCircle(x,y,size/5,myPaint);
+        if(isEraser)canvas.drawCircle(x,y,size/7,myPaint);
         canvas.drawPath(myPath,myPaint);
+        canvas.restore();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         x = event.getX();
         y = event.getY();
+        detector.onTouchEvent(event);
 
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -81,11 +89,22 @@ public class MyView extends View{
         invalidate();
         return true;
     }
+    //현재 캔버스를 비트맵에 넣어 리턴해줍니다.
     public Bitmap getCanvasBitmap(){
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
         return bitmap;
     }
-
+    //핀치 줌 리스너
+    private class ScaleListener
+            extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scale *= detector.getScaleFactor();
+            scale = Math.max(0.1f, Math.min(scale, 5.0f));
+            invalidate();
+            return true;
+        }
+    }
 }

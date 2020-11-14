@@ -52,6 +52,7 @@ import java.util.Date;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class MainActivity extends AppCompatActivity {
+    public static String TAG = "MainActivity";
     LinearLayout container,settingContainer;
     Button saveBtn, colorBtn, backBtn,screenBtn,eraserBtn;
     TextView sizeText;
@@ -196,22 +197,22 @@ public class MainActivity extends AppCompatActivity {
             //갤러리 비트맵 저장
             MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, timeStamp, "from canvas test app");
             os.flush();
-            Toast.makeText(getApplicationContext(),"저장 성공",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"갤러리에 저장되었습니다",Toast.LENGTH_SHORT).show();
             os.close();
         }catch(Exception e){
-            Log.d("test",e.toString());
+            Log.d(TAG,e.toString());
         }
     }
     //TedPermission
     PermissionListener permissionlistener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
-            Toast.makeText(getApplicationContext(), "권한 허가", Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"권한 허가");
         }
 
         @Override
         public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-            Toast.makeText(getApplicationContext(), "권한 거부\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG,"권한 불허");
         }
     };
     //뒤로가기 2초 안에 2번 누를시 앱 종료

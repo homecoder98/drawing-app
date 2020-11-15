@@ -1,6 +1,7 @@
 package com.example.canvastest;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -46,6 +47,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -53,8 +56,9 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class MainActivity extends AppCompatActivity {
     public static String TAG = "MainActivity";
+    private static int GET_GALLERY_IMAGE = 200;
     LinearLayout container,settingContainer;
-    Button saveBtn, colorBtn, backBtn,screenBtn,eraserBtn;
+    Button saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn;
     TextView sizeText;
     SeekBar sizeBar;
     MyView myView;
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         container = findViewById(R.id.container);
         settingContainer = findViewById(R.id.settingContainer);
         saveBtn = findViewById(R.id.saveBtn);
+        loadBtn = findViewById(R.id.loadBtn);
         colorBtn = findViewById(R.id.colorBtn);
         eraserBtn = findViewById(R.id.eraserBtn);
         backBtn = findViewById(R.id.backBtn);
@@ -99,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //사진 불러오기 버튼 리스너
+        loadBtn.setOnClickListener(onClickListener);
 
         //색상 선택 버튼 리스너
         colorBtn.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +183,46 @@ public class MainActivity extends AppCompatActivity {
 
     }
     //onCreate 끝
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()){
+                case R.id.loadBtn:
+                    loadImage();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    //이미지 불러오기
+    public void loadImage(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath());
+        intent.setDataAndType(uri, "image/*");
+        startActivityForResult(intent, GET_GALLERY_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            try {
+//                InputStream in = getContentResolver().openInputStream(data.getData());
+//                Bitmap img = BitmapFactory.decodeStream(in);
+//                in.close();
+                Uri uri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                myView.drawCanvas();
+//                Canvas canvas = new Canvas(bitmap);
+//                myView.getPicture(canvas);
+            } catch (IOException e) {
+                Log.d("test","에러는 : "+e.toString());
+            }
+        }
+    }
+
+    //sd카드 저장 가능 여부 확인
     public Boolean isExternalStorageWritable(){
         String state = Environment.getExternalStorageState();
         if(Environment.MEDIA_MOUNTED.equals(state)){
@@ -188,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = timeStamp + ".jpg";
 
-        File file1 = new File(Environment.getExternalStorageDirectory()+"/DCIM/Camera/");
+        File file1 = new File(Environment.getExternalStorageDirectory()+"");
 
         try{
             File file = new File(file1,fileName);

@@ -12,26 +12,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/settingContainer">
         <Button
-            android:layout_width="0dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_baseline_folder_24"
+            android:id="@+id/saveBtn"/>
+        <Button
+            android:id="@+id/loadBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/color_button"
-            android:id="@+id/saveBtn"
-            android:text="저장"/>
+            android:text="불러오기"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/color_button"
             android:layout_weight="1"
             android:id="@+id/colorBtn"
-            android:text="색상"/>
+            android:text="색"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/color_button"
             android:id="@+id/eraserBtn"
-            android:text="지우개"/>
+            android:text="지"/>
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -57,9 +61,5 @@
         android:background="@drawable/ic_baseline_fullscreen_24"
         android:layout_width="50dp"
         android:layout_height="50dp"/>
-
-
-
-
 
 </LinearLayout>

@@ -49,7 +49,6 @@ public class MyView extends View{
         super.onDraw(canvas);
         canvas.save();
         canvas.scale(scale,scale,x,y);
-        canvas.drawColor(Color.WHITE);
         myPaint.setStrokeWidth(size);
         myPaint.setColor(color);
         for(int i =0;i<pathList.size();i++){
@@ -89,12 +88,22 @@ public class MyView extends View{
         invalidate();
         return true;
     }
+    public void getPicture(Canvas canvas){
+        this.draw(canvas);
+        invalidate();
+    }
     //현재 캔버스를 비트맵에 넣어 리턴해줍니다.
     public Bitmap getCanvasBitmap(){
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         this.draw(canvas);
         return bitmap;
+    }
+    public void drawCanvas(){
+        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.BLUE);
+        this.draw(canvas);
     }
     //핀치 줌 리스너
     private class ScaleListener

@@ -56,10 +56,19 @@
             android:layout_gravity="center_vertical"
             android:max="100" />
     </LinearLayout>
-    <Button
-        android:id="@+id/screenBtn"
-        android:background="@drawable/ic_baseline_fullscreen_24"
-        android:layout_width="50dp"
-        android:layout_height="50dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/screenBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_baseline_fullscreen_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </LinearLayout>

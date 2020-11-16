@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     public static String TAG = "MainActivity";
     private static int GET_GALLERY_IMAGE = 200;
     LinearLayout container,settingContainer;
+    ConstraintLayout constraint;
     Button saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn;
     TextView sizeText;
     SeekBar sizeBar;
@@ -73,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
         TedPermission.with(this)
                 .setPermissionListener(permissionlistener)
                 .setRationaleMessage("권한이 부족합니다")
-                .setDeniedMessage("왜 거부하셨어요...\n하지만 [설정] > [권한] 에서 권한을 허용할 수 있어요.")
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION)
+                .setDeniedMessage("권한이 필요합니다")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .check();
 
         //인플레이션
         container = findViewById(R.id.container);
         settingContainer = findViewById(R.id.settingContainer);
+        constraint = findViewById(R.id.constraint);
         saveBtn = findViewById(R.id.saveBtn);
         loadBtn = findViewById(R.id.loadBtn);
         colorBtn = findViewById(R.id.colorBtn);
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         //캔버스 인플레이션 + addview
         myView = new MyView(this);
-        container.addView(myView);
+        constraint.addView(myView);
 
 
         //사진 갤러리 저장 버튼 리스너
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!isWideScreen){
-                    settingContainer.setVisibility(View.GONE);
+                    settingContainer.setVisibility(View.INVISIBLE);
                     screenBtn.setBackgroundResource(R.drawable.ic_baseline_fullscreen_exit_24);
                     isWideScreen = true;
                 }else{

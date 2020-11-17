@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,59 +7,80 @@
     android:orientation="vertical"
     android:id="@+id/container"
     tools:context=".MainActivity">
+
     <LinearLayout
+        android:id="@+id/canvasContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/settingContainer">
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_baseline_folder_24"
-            android:id="@+id/saveBtn"/>
-        <Button
-            android:id="@+id/loadBtn"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="불러오기"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/color_button"
-            android:layout_weight="1"
-            android:id="@+id/colorBtn"
-            android:text="색"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/color_button"
-            android:id="@+id/eraserBtn"
-            android:text="지"/>
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
-            android:id="@+id/backBtn"
-            android:text="뒤로"/>
-        <TextView
-            android:id="@+id/sizeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="펜 굵기 : 10"/>
-        <SeekBar
-            android:id="@+id/sizeBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:max="100" />
+            android:id="@+id/settingContainer">
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/img_download" />
+
+            <Button
+                android:id="@+id/loadBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/img_load" />
+
+            <Button
+                android:id="@+id/colorBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/img_color_pick" />
+
+            <Button
+                android:id="@+id/eraserBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/img_eraser" />
+
+            <Button
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
+                android:backgroundTint="#000000"
+                android:drawableTint="#000000"
+                android:text="뒤로" />
+
+            <TextView
+                android:id="@+id/sizeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="펜 굵기 : 10"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@+id/sizeBar"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:max="100" />
+        </LinearLayout>
+
     </LinearLayout>
+
     <Button
         android:id="@+id/screenBtn"
-        android:background="@drawable/ic_baseline_fullscreen_24"
         android:layout_width="50dp"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:background="@drawable/img_fullscreen"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

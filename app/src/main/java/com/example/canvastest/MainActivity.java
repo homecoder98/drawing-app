@@ -1,54 +1,32 @@
 package com.example.canvastest;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.icu.text.SimpleDateFormat;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -57,7 +35,8 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 public class MainActivity extends AppCompatActivity {
     public static String TAG = "MainActivity";
     private static int GET_GALLERY_IMAGE = 200;
-    LinearLayout container,settingContainer;
+    ConstraintLayout container;
+    LinearLayout settingContainer,canvasContainer;
     Button saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn;
     TextView sizeText;
     SeekBar sizeBar;
@@ -80,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //인플레이션
         container = findViewById(R.id.container);
         settingContainer = findViewById(R.id.settingContainer);
+        canvasContainer = findViewById(R.id.canvasContainer);
         saveBtn = findViewById(R.id.saveBtn);
         loadBtn = findViewById(R.id.loadBtn);
         colorBtn = findViewById(R.id.colorBtn);
@@ -91,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         //캔버스 인플레이션 + addview
         myView = new MyView(this);
-        container.addView(myView);
+        canvasContainer.addView(myView);
 
 
         //사진 갤러리 저장 버튼 리스너
@@ -174,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     isWideScreen = true;
                 }else{
                     settingContainer.setVisibility(View.VISIBLE);
-                    screenBtn.setBackgroundResource(R.drawable.ic_baseline_fullscreen_24);
+                    screenBtn.setBackgroundResource(R.drawable.img_fullscreen);
                     isWideScreen = false;
                 }
             }

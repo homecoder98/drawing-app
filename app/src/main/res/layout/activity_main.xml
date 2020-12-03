@@ -22,64 +22,67 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/settingContainer">
-            <Button
+            <ImageButton
                 android:id="@+id/saveBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/img_download" />
+                android:background="@drawable/img_download"
+                android:backgroundTint="#ff000000"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/loadBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/img_load" />
+                android:background="@drawable/img_load"
+                android:backgroundTint="#ff000000"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/colorBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/img_color_pick" />
+                android:background="@drawable/img_color_pick"
+                android:backgroundTint="#ff000000"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/eraserBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/img_eraser" />
+                android:background="@drawable/img_eraser"
+                android:backgroundTint="#ff000000"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/backBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
-                android:backgroundTint="#000000"
-                android:drawableTint="#000000" />
-            <Button
+                android:backgroundTint="#5f000000" />
+            <ImageButton
                 android:id="@+id/forwardBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/img_forward"
-                android:backgroundTint="#000" />
-            <Button
+                android:backgroundTint="#5f000000" />
+            <ImageButton
                 android:id="@+id/btn_pen"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/img_pen"
-                android:backgroundTint="#000000"
-                android:drawableTint="#000000" />
+                android:backgroundTint="#ff000000"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/screenBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/img_fullscreen"
+        android:backgroundTint="#ff000000"
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

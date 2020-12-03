@@ -8,6 +8,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -31,18 +34,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class MainActivity extends AppCompatActivity{
     public static String TAG = "MainActivity";
     private static int GET_GALLERY_IMAGE = 200;
-    private ConstraintLayout container;
     private LinearLayout settingContainer,canvasContainer;
-    private Button saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn,btn_pen,forwardBtn;
-    private TextView sizeText;
+    private ImageButton saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn,btn_pen,forwardBtn;
     public static MyView myView;
     private ColorPicker colorPicker;
+    private ArrayList<Path> tempPath;
+    private ArrayList<Paint> tempPaint;
     private boolean isWideScreen = false;
     private long backPressedTime = 0;
     @Override
@@ -58,18 +62,16 @@ public class MainActivity extends AppCompatActivity{
                 .check();
 
         //인플레이션
-        container = (ConstraintLayout)findViewById(R.id.container);
         settingContainer = (LinearLayout)findViewById(R.id.settingContainer);
         canvasContainer = (LinearLayout)findViewById(R.id.canvasContainer);
-        saveBtn = (Button)findViewById(R.id.saveBtn);
-        loadBtn = (Button)findViewById(R.id.loadBtn);
-        colorBtn = (Button)findViewById(R.id.colorBtn);
-        eraserBtn = (Button)findViewById(R.id.eraserBtn);
-        backBtn = (Button)findViewById(R.id.backBtn);
-        forwardBtn = (Button)findViewById(R.id.forwardBtn);
-        sizeText = (TextView)findViewById(R.id.sizeText);
-        screenBtn = (Button)findViewById(R.id.screenBtn);
-        btn_pen = (Button)findViewById(R.id.btn_pen);
+        saveBtn = (ImageButton)findViewById(R.id.saveBtn);
+        loadBtn = (ImageButton)findViewById(R.id.loadBtn);
+        colorBtn = (ImageButton)findViewById(R.id.colorBtn);
+        eraserBtn = (ImageButton)findViewById(R.id.eraserBtn);
+        backBtn = (ImageButton)findViewById(R.id.backBtn);
+        forwardBtn = (ImageButton)findViewById(R.id.forwardBtn);
+        screenBtn = (ImageButton)findViewById(R.id.screenBtn);
+        btn_pen = (ImageButton)findViewById(R.id.btn_pen);
         //캔버스 인플레이션 + addview
         myView = new MyView(this);
         canvasContainer.addView(myView);
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity{
         forwardBtn.setOnClickListener(onClickListener);
         btn_pen.setOnClickListener(onClickListener);
         screenBtn.setOnClickListener(onClickListener);
+
+        //뒤로가기,앞으로가기 임시 리스트 초기화
+        tempPath = new ArrayList<Path>();
+        tempPaint = new ArrayList<Paint>();
     }
     //onCreate 끝
     //버튼 리스너
@@ -109,7 +115,7 @@ public class MainActivity extends AppCompatActivity{
                     removeOneLine();
                     break;
                 case R.id.forwardBtn:
-                    //아직 기능 구현 x
+                    addOneLine();
                     break;
                 case R.id.btn_pen:
                     penSizeChange();
@@ -209,11 +215,9 @@ public class MainActivity extends AppCompatActivity{
     }
     //뒤로가기 버튼 누를시 한 획 지우기
     private void removeOneLine(){
-        if (myView.pathList.size() > 0) {
-            myView.pathList.remove(myView.pathList.size() - 1);
-            myView.paintList.remove(myView.paintList.size() - 1);
-            myView.invalidate();
-        }
+    }
+    //한 획 되돌리기
+    private void addOneLine(){
     }
     //펜 사이즈 변경
     private void penSizeChange(){

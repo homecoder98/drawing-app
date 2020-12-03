@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -53,22 +54,23 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
                 android:backgroundTint="#000000"
-                android:drawableTint="#000000"
-                android:text="뒤로" />
-
-            <TextView
-                android:id="@+id/sizeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="펜 굵기 : 10"
-                android:textStyle="bold" />
-
-            <SeekBar
-                android:id="@+id/sizeBar"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:drawableTint="#000000" />
+            <Button
+                android:id="@+id/forwardBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:max="100" />
+                android:background="@drawable/img_forward"
+                android:backgroundTint="#000" />
+            <Button
+                android:id="@+id/btn_pen"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/img_pen"
+                android:backgroundTint="#000000"
+                android:drawableTint="#000000" />
+
         </LinearLayout>
 
     </LinearLayout>

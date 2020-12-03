@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,16 +34,15 @@ import java.util.Date;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     public static String TAG = "MainActivity";
     private static int GET_GALLERY_IMAGE = 200;
-    ConstraintLayout container;
-    LinearLayout settingContainer,canvasContainer;
-    Button saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn;
-    TextView sizeText;
-    SeekBar sizeBar;
-    MyView myView;
-    ColorPicker colorPicker;
+    private ConstraintLayout container;
+    private LinearLayout settingContainer,canvasContainer;
+    private Button saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn,btn_pen,forwardBtn;
+    private TextView sizeText;
+    public static MyView myView;
+    private ColorPicker colorPicker;
     private boolean isWideScreen = false;
     private long backPressedTime = 0;
     @Override
@@ -57,118 +58,72 @@ public class MainActivity extends AppCompatActivity {
                 .check();
 
         //인플레이션
-        container = findViewById(R.id.container);
-        settingContainer = findViewById(R.id.settingContainer);
-        canvasContainer = findViewById(R.id.canvasContainer);
-        saveBtn = findViewById(R.id.saveBtn);
-        loadBtn = findViewById(R.id.loadBtn);
-        colorBtn = findViewById(R.id.colorBtn);
-        eraserBtn = findViewById(R.id.eraserBtn);
-        backBtn = findViewById(R.id.backBtn);
-        sizeText = findViewById(R.id.sizeText);
-        sizeBar = findViewById(R.id.sizeBar);
-        screenBtn = findViewById(R.id.screenBtn);
-
+        container = (ConstraintLayout)findViewById(R.id.container);
+        settingContainer = (LinearLayout)findViewById(R.id.settingContainer);
+        canvasContainer = (LinearLayout)findViewById(R.id.canvasContainer);
+        saveBtn = (Button)findViewById(R.id.saveBtn);
+        loadBtn = (Button)findViewById(R.id.loadBtn);
+        colorBtn = (Button)findViewById(R.id.colorBtn);
+        eraserBtn = (Button)findViewById(R.id.eraserBtn);
+        backBtn = (Button)findViewById(R.id.backBtn);
+        forwardBtn = (Button)findViewById(R.id.forwardBtn);
+        sizeText = (TextView)findViewById(R.id.sizeText);
+        screenBtn = (Button)findViewById(R.id.screenBtn);
+        btn_pen = (Button)findViewById(R.id.btn_pen);
         //캔버스 인플레이션 + addview
         myView = new MyView(this);
         canvasContainer.addView(myView);
 
-
-        //사진 갤러리 저장 버튼 리스너
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bitmap = myView.getCanvasBitmap();
-                if (isExternalStorageWritable()) {
-                    saveImage(bitmap);
-                }
-            }
-        });
-        //사진 불러오기 버튼 리스너
+        //버튼 리스너 등록
+        saveBtn.setOnClickListener(onClickListener);
         loadBtn.setOnClickListener(onClickListener);
-
-        //색상 선택 버튼 리스너
-        colorBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(myView.isEraser)myView.isEraser = false;
-                colorPicker = new ColorPicker(MainActivity.this);
-                colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
-                    @Override
-                    public void onChooseColor(int position, int color) {
-                        myView.color = color;
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // put code
-                    }
-                });
-                colorPicker.show();
-            }
-        });
-        //지우개 버튼 리스너
-        eraserBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myView.color = Color.WHITE;
-                myView.isEraser = true;
-            }
-        });
-        //한 휙 지우기 버튼 리스너
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (myView.pathList.size() > 0) {
-                    myView.pathList.remove(myView.pathList.size() - 1);
-                    myView.paintList.remove(myView.paintList.size() - 1);
-                    myView.invalidate();
-                }
-            }
-        });
-        //붓 사이즈 조절 시크바 리스너
-        sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                sizeText.setText("굵기: " + i);
-                myView.size = (float) i;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        //전체화면 버튼 클릭 리스너
-        screenBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isWideScreen){
-                    settingContainer.setVisibility(View.GONE);
-                    screenBtn.setBackgroundResource(R.drawable.ic_baseline_fullscreen_exit_24);
-                    isWideScreen = true;
-                }else{
-                    settingContainer.setVisibility(View.VISIBLE);
-                    screenBtn.setBackgroundResource(R.drawable.img_fullscreen);
-                    isWideScreen = false;
-                }
-            }
-        });
-
-
+        colorBtn.setOnClickListener(onClickListener);
+        eraserBtn.setOnClickListener(onClickListener);
+        backBtn.setOnClickListener(onClickListener);
+        forwardBtn.setOnClickListener(onClickListener);
+        btn_pen.setOnClickListener(onClickListener);
+        screenBtn.setOnClickListener(onClickListener);
     }
     //onCreate 끝
+    //버튼 리스너
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch(view.getId()){
+                case R.id.saveBtn:
+                    Bitmap bitmap = myView.getCanvasBitmap();
+                    if (isExternalStorageWritable()) {
+                        saveImage(bitmap);
+                    }
+                    break;
+                case R.id.colorBtn:
+                    penChangeColor();
+                    break;
                 case R.id.loadBtn:
                     loadImage();
+                    break;
+                case R.id.eraserBtn:
+                    penChangeErase();
+                    break;
+                case R.id.backBtn:
+                    removeOneLine();
+                    break;
+                case R.id.forwardBtn:
+                    //아직 기능 구현 x
+                    break;
+                case R.id.btn_pen:
+                    penSizeChange();
+                    break;
+                case R.id.screenBtn:
+                    if(!isWideScreen){
+                        settingContainer.setVisibility(View.GONE);
+                        screenBtn.setBackgroundResource(R.drawable.ic_baseline_fullscreen_exit_24);
+                        isWideScreen = true;
+                    }else{
+                        settingContainer.setVisibility(View.VISIBLE);
+                        screenBtn.setBackgroundResource(R.drawable.img_fullscreen);
+                        isWideScreen = false;
+                    }
                     break;
                 default:
                     break;
@@ -229,6 +184,45 @@ public class MainActivity extends AppCompatActivity {
         }catch(Exception e){
             Log.d(TAG,e.toString());
         }
+    }
+    //색상 선택 버튼 클릭
+    private void penChangeColor(){
+        if(myView.isEraser)myView.isEraser = false;
+        colorPicker = new ColorPicker(MainActivity.this);
+        colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+            @Override
+            public void onChooseColor(int position, int color) {
+                myView.color = color;
+            }
+
+            @Override
+            public void onCancel() {
+                // put code
+            }
+        });
+        colorPicker.show();
+    }
+    //지우개 들기
+    private void penChangeErase(){
+        myView.color = Color.WHITE;
+        myView.isEraser = true;
+    }
+    //뒤로가기 버튼 누를시 한 획 지우기
+    private void removeOneLine(){
+        if (myView.pathList.size() > 0) {
+            myView.pathList.remove(myView.pathList.size() - 1);
+            myView.paintList.remove(myView.paintList.size() - 1);
+            myView.invalidate();
+        }
+    }
+    //펜 사이즈 변경
+    private void penSizeChange(){
+        DialogPen dialogPen = new DialogPen(MainActivity.this);
+        dialogPen.show(getSupportFragmentManager(),null);
+    }
+    //토스트 생성
+    private void showToast(String msg){
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
     //TedPermission
     PermissionListener permissionlistener = new PermissionListener() {

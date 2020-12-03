@@ -88,10 +88,6 @@ public class MyView extends View{
         invalidate();
         return true;
     }
-    public void getPicture(Canvas canvas){
-        this.draw(canvas);
-        invalidate();
-    }
     //현재 캔버스를 비트맵에 넣어 리턴해줍니다.
     public Bitmap getCanvasBitmap(){
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(), Bitmap.Config.ARGB_8888);

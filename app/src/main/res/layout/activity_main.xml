@@ -57,21 +57,23 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ic_baseline_keyboard_arrow_left_24"
-                android:backgroundTint="#5f000000" />
+                android:backgroundTint="#ff000000"
+                android:alpha=".5"/>
             <ImageButton
                 android:id="@+id/forwardBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/img_forward"
-                android:backgroundTint="#5f000000" />
+                android:backgroundTint="#ff000000"
+                android:alpha=".5"/>
             <ImageButton
                 android:id="@+id/btn_pen"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/img_pen"
-                android:backgroundTint="#ff000000"/>
+                android:backgroundTint="#ff000000" />
 
         </LinearLayout>
 

@@ -42,10 +42,11 @@ public class MainActivity extends AppCompatActivity{
     public static String TAG = "MainActivity";
     private static int GET_GALLERY_IMAGE = 200;
     private LinearLayout settingContainer,canvasContainer;
-    private ImageButton saveBtn,loadBtn, colorBtn, backBtn,screenBtn,eraserBtn,btn_pen,forwardBtn;
+    private ImageButton saveBtn,loadBtn, colorBtn,screenBtn,eraserBtn,btn_pen;
+    public static ImageButton backBtn,forwardBtn;
     public static MyView myView;
     private ColorPicker colorPicker;
-    private ArrayList<Path> tempPath;
+    public static ArrayList<Path> tempPath;
     private ArrayList<Paint> tempPaint;
     private boolean isWideScreen = false;
     private long backPressedTime = 0;
@@ -149,18 +150,9 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            try {
-//                InputStream in = getContentResolver().openInputStream(data.getData());
-//                Bitmap img = BitmapFactory.decodeStream(in);
-//                in.close();
-                Uri uri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                myView.drawCanvas();
-//                Canvas canvas = new Canvas(bitmap);
-//                myView.getPicture(canvas);
-            } catch (IOException e) {
-                Log.d("test","에러는 : "+e.toString());
-            }
+            //갤러리에서 사진 가져와서 캔버스에 뿌리기 기능 아직 미완성
+            Uri uri = data.getData();
+            myView.drawCanvas();
         }
     }
 
@@ -216,9 +208,29 @@ public class MainActivity extends AppCompatActivity{
     }
     //뒤로가기 버튼 누를시 한 획 지우기
     private void removeOneLine(){
+        if(myView.pathList.size() > 0){
+            tempPath.add(myView.pathList.get(myView.pathList.size() - 1));
+            tempPaint.add(myView.paintList.get(myView.paintList.size() - 1));
+
+            myView.pathList.remove(myView.pathList.size() - 1);
+            myView.paintList.remove(myView.paintList.size() - 1);
+
+            myView.invalidate();
+            myView.setButtonAlpha();
+        }
     }
     //한 획 되돌리기
     private void addOneLine(){
+        if(tempPath.size() > 0){
+            myView.pathList.add(tempPath.get(tempPath.size() - 1));
+            myView.paintList.add(tempPaint.get(tempPaint.size() - 1));
+
+            tempPath.remove(tempPath.get(tempPath.size() - 1));
+            tempPaint.remove(tempPaint.get(tempPaint.size() - 1));
+
+            myView.invalidate();
+            myView.setButtonAlpha();
+        }
     }
     //펜 사이즈 변경
     private void penSizeChange(){

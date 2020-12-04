@@ -13,6 +13,8 @@ import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -28,6 +30,7 @@ public class MyView extends View{
     public int color = Color.BLACK;
     public float size = 10.0f;
     public boolean isEraser = false;
+//    private ImageButton backBtn,forwardBtn;
 
     public MyView(Context context) {
         super(context);
@@ -43,6 +46,8 @@ public class MyView extends View{
         pathList.add(myPath);
         paintList.add(myPaint);
         detector = new ScaleGestureDetector(this.getContext(), new ScaleListener());
+//        backBtn = findViewById(R.id.backBtn);
+//        forwardBtn = findViewById(R.id.forwardBtn);
     }
 
     @Override
@@ -82,6 +87,7 @@ public class MyView extends View{
                 myPaint.setStyle(Paint.Style.STROKE);
                 myPaint.setStrokeCap(Paint.Cap.ROUND);
                 myPaint.setAntiAlias(true);
+                setButtonAlpha();
                 break;
             default:
                 return false;
@@ -101,6 +107,19 @@ public class MyView extends View{
         Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(Color.BLUE);
         this.draw(canvas);
+    }
+    //버튼 투명도 설정
+    public void setButtonAlpha(){
+        if(paintList.size() > 0){
+            MainActivity.backBtn.setAlpha(1.f);
+        }else{
+            MainActivity.backBtn.setAlpha(.5f);
+        }
+        if(MainActivity.tempPath.size() > 0){
+            MainActivity.forwardBtn.setAlpha(1.f);
+        }else{
+            MainActivity.forwardBtn.setAlpha(.5f);
+        }
     }
     //핀치 줌 리스너
     private class ScaleListener

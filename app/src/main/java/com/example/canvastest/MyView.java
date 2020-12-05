@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -30,7 +31,6 @@ public class MyView extends View{
     public int color = Color.BLACK;
     public float size = 10.0f;
     public boolean isEraser = false;
-//    private ImageButton backBtn,forwardBtn;
 
     public MyView(Context context) {
         super(context);
@@ -46,8 +46,6 @@ public class MyView extends View{
         pathList.add(myPath);
         paintList.add(myPaint);
         detector = new ScaleGestureDetector(this.getContext(), new ScaleListener());
-//        backBtn = findViewById(R.id.backBtn);
-//        forwardBtn = findViewById(R.id.forwardBtn);
     }
 
     @Override
@@ -102,11 +100,9 @@ public class MyView extends View{
         this.draw(canvas);
         return bitmap;
     }
-    public void drawCanvas(){
-        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(),this.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.BLUE);
-        this.draw(canvas);
+    //사진 불러와서 뷰 객체 배경에 그려줌
+    public void setCanvasBitmap(Bitmap bitmap){
+        this.setBackground(new BitmapDrawable(getResources(), bitmap));
     }
     //버튼 투명도 설정
     public void setButtonAlpha(){

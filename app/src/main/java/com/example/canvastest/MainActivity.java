@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -138,21 +139,18 @@ public class MainActivity extends AppCompatActivity{
             }
         }
     };
-    //이미지 불러오기
-    public void loadImage(){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath());
-        intent.setDataAndType(uri, "image/*");
-        startActivityForResult(intent, GET_GALLERY_IMAGE);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            //갤러리에서 사진 가져와서 캔버스에 뿌리기 기능 아직 미완성
-            Uri uri = data.getData();
-            myView.drawCanvas();
+            //갤러리에서 사진 가져와서 캔버스에 뿌리기
+            try {
+                Uri uri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                myView.setCanvasBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -183,6 +181,13 @@ public class MainActivity extends AppCompatActivity{
         }catch(Exception e){
             Log.d(TAG,e.toString());
         }
+    }
+    //이미지 불러오기
+    public void loadImage(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath());
+        intent.setDataAndType(uri, "image/*");
+        startActivityForResult(intent, GET_GALLERY_IMAGE);
     }
     //색상 선택 버튼 클릭
     private void penChangeColor(){

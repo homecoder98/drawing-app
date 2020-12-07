@@ -24,6 +24,7 @@ public class MyView extends View{
     public Paint myPaint;
     private Path myPath;
     private ScaleGestureDetector detector;
+    private float mScaleFactor = 1.0f;
     private float scale = 1.0f;
     private float x,y;
     public ArrayList<Path> pathList = new ArrayList<Path>();
@@ -53,6 +54,7 @@ public class MyView extends View{
         super.onDraw(canvas);
         canvas.save();
         canvas.scale(scale,scale,x,y);
+        canvas.drawColor(Color.WHITE);
         myPaint.setStrokeWidth(size);
         myPaint.setColor(color);
         for(int i =0;i<pathList.size();i++){
@@ -122,9 +124,10 @@ public class MyView extends View{
             extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            scale *= detector.getScaleFactor();
-            scale = Math.max(0.1f, Math.min(scale, 5.0f));
-            invalidate();
+            mScaleFactor *= detector.getScaleFactor();
+            mScaleFactor = Math.max(0.1f,Math.min(mScaleFactor,10.0f));
+            setScaleX(mScaleFactor);
+            setScaleY(mScaleFactor);
             return true;
         }
     }

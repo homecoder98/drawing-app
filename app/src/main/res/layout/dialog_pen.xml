@@ -4,17 +4,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_example"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/sizeText"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="펜 굵기 : 10"
+            android:text="펜 굵기 : 100px"
             android:textStyle="bold" />
-
+        <View
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="#9000"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"/>
         <SeekBar
             android:id="@+id/sizeBar"
             android:layout_width="200dp"
@@ -22,5 +31,40 @@
             android:layout_gravity="center_vertical"
             android:progress="10"
             android:max="100" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="펜 선택"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="#9000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"/>
+        <Button
+            android:id="@+id/btn_default_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="기본"/>
+        <Button
+            android:id="@+id/btn_second_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="두번쨰 펜"/>
+        <Button
+            android:id="@+id/btn_third_pen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="세번째 펜"/>
+
     </LinearLayout>
 </LinearLayout>
